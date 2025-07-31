@@ -52,11 +52,11 @@ public class User {
 @Override
 public String toString() {
     return "User{" +
-            "nombreCompleto='" + nombreCompleto + '\'' +
-            ", id='" + id + '\'' +
-            ", usuario='" + usuario + '\'' +
-            ", contraseña='" + contraseña + '\'' +
-            ", rol=" + rol +
+            "nombreCompleto='" + getNombreCompleto() + '\'' +
+            ", id='" + getId() + '\'' +
+            ", usuario='" + getUsuario() + '\'' +
+            ", contraseña='" + getContraseña() + '\'' +
+            ", rol=" + getRol() +
             '}';
 }
   
