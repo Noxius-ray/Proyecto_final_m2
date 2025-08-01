@@ -8,11 +8,32 @@ import model.User;
 public class GestorUser {
 
 public static Scanner teclado = new Scanner(System.in);
+public static User usuarioActual;
 
    User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345", Rol.ADMIN );
     User usuario2 = new User("Sebastian Mena", "2", "Juanse", "123456", Rol.ESTANDAR);
     User[] usuario = new User[]{usuario1, usuario2};
-    
+    public User iniciarSesion(){
+       
+        boolean encontrado = false;
+        System.out.print("Ingrese el usuario: ");
+        var username = teclado.nextLine();
+
+        System.out.print("Ingrese la contraseña: ");
+        var password = teclado.nextLine();
+
+        for (int i = 0; i < usuario.length; i++) {
+            if(usuario[i].getUsuario().equals(username) && usuario[i].getContraseña().equals(password)){
+        System.out.println("Se ha iniciado la sesion correctamente");
+        System.out.println("Nombre del usuario: "+usuario[i].getNombreCompleto());
+        encontrado = true;
+        usuarioActual = usuario[i];
+        return usuario[i];}}
+        if(!encontrado){
+       System.out.println("Usuario o contraseña ingresado incorrectamente");
+        }
+    return null;
+    }
   
     public void buscarUsuario(){
          

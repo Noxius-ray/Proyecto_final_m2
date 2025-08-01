@@ -16,6 +16,7 @@ public class User {
         this.rol = rol;
     }
 
+
     public String getNombreCompleto() {
         return nombreCompleto;
     }
@@ -51,13 +52,12 @@ public class User {
     }
 @Override
 public String toString() {
-    return "User{" +
-            "nombreCompleto='" + getNombreCompleto() + '\'' +
-            ", id='" + getId() + '\'' +
-            ", usuario='" + getUsuario() + '\'' +
-            ", contraseña='" + getContraseña() + '\'' +
-            ", rol=" + getRol() +
-            '}';
+    return "User: " +
+            "Nombre Completo=" + getNombreCompleto() +
+            ", Id=" + getId()  +
+            ", Usuario=" + getUsuario() +
+            ", Contraseña=" + getContraseña()  +
+            ", Rol=" + getRol();
 }
   
 }
