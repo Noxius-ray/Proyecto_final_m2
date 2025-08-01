@@ -1,12 +1,12 @@
 import java.util.Scanner;
 
-
-
+import model.Rol;
 import service.GestorUser;
 public class App  {
     public static void main(String[] args)  {
-      var teclado = new Scanner(System.in);
+    var teclado = new Scanner(System.in);
     GestorUser gestor = new GestorUser();
+    
 
     int opc;
 
@@ -14,33 +14,31 @@ public class App  {
     System.out.println("""
         MENU PRINCIPAL
         1. Iniciar Sesion
-        2. Buscar Usuario
-        3. Actualiar Datos
-        4. Eliminar Usuario(Solo Admin)
-        5. SALIR
+        2. Para continuar
+        3. Salir
     """);
     System.out.print("Seleccione una opción: ");
     opc = teclado.nextInt();
     teclado.nextLine();
+    
 
     switch (opc) {
       case 1:
         gestor.iniciarSesion();
         break;
-      case 2:
-        gestor.buscarUsuario();
-        break;
       case 3: 
-        gestor.actualizar();
-        break;
-      case 4: 
-        gestor.eliminarUsuario();
-        break;
-    
-      default:
-      System.out.println("OPCION NO VALIDA");
-        break;
+      System.exit(0);
     }
-    }while(opc!=5);
+    }while(opc!=2);
+if (gestor.usuarioActual == null) {
+    System.out.println("Debe iniciar sesión primero.");
+    return;
+}
+  if (gestor.usuarioActual.getRol().equals(Rol.ADMIN)) {
+    
+    gestor.menuAdmin();}
+  else{
+    gestor.menuEstandar();
+}
 }
 }

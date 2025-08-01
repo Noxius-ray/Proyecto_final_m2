@@ -2,6 +2,8 @@ package service;
 
 import java.util.Scanner;
 
+
+
 import model.Rol;
 import model.User;
 
@@ -9,10 +11,46 @@ public class GestorUser {
 
 public static Scanner teclado = new Scanner(System.in);
 public static User usuarioActual;
+public static User usuario[];
+public static int cont = 0;
+public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345", Rol.ADMIN );
+ 
 
-   User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345", Rol.ADMIN );
-    User usuario2 = new User("Sebastian Mena", "2", "Juanse", "123456", Rol.ESTANDAR);
-    User[] usuario = new User[]{usuario1, usuario2};
+  static {
+ usuario = new User[50];
+ usuario[0] = usuario1;
+        cont = 1;
+}
+    public void agregarUsuarios(){
+
+        System.out.println("=== Registro de nuevo usuario ===");
+    
+    System.out.print("Ingrese el nombre completo: ");
+    String nombre = teclado.nextLine();
+    
+    System.out.print("Ingrese el ID: ");
+    String id = teclado.nextLine();
+    
+    System.out.print("Ingrese el nombre de usuario: ");
+    String usuarioNombre = teclado.nextLine();
+
+    System.out.print("Ingrese la contraseña: ");
+    String contraseña = teclado.nextLine();
+    
+    System.out.print("Seleccione el rol (1 para ADMIN, 2 para ESTANDAR): ");
+    int rolSeleccionado = teclado.nextInt();
+    teclado.nextLine(); 
+
+    Rol rol = (rolSeleccionado == 1) ? Rol.ADMIN : Rol.ESTANDAR;
+
+    usuario[cont] = new User(nombre, id, usuarioNombre, contraseña, rol);
+    cont++;
+    System.out.println("Usuario agregado con exito");
+    }
+
+
+   
+
     public User iniciarSesion(){
        
         boolean encontrado = false;
@@ -22,7 +60,7 @@ public static User usuarioActual;
         System.out.print("Ingrese la contraseña: ");
         var password = teclado.nextLine();
 
-        for (int i = 0; i < usuario.length; i++) {
+        for (int i = 0; i < cont; i++) {
             if(usuario[i].getUsuario().equals(username) && usuario[i].getContraseña().equals(password)){
         System.out.println("Se ha iniciado la sesion correctamente");
         System.out.println("Nombre del usuario: "+usuario[i].getNombreCompleto());
@@ -42,7 +80,7 @@ public static User usuarioActual;
         var validacionId = teclado.nextLine();
 
 
-    for (int i = 0; i < usuario.length; i++) {
+    for (int i = 0; i < cont; i++) {
     if(usuario[i].getId().equals(validacionId)){
     System.out.println("Usuario Encontrado");
     System.out.println(usuario[i].toString());
@@ -51,13 +89,14 @@ public static User usuarioActual;
     if (!encontrado) {
     System.out.println("Usuario no encontrado");
    }}
+   //Metodo Actualizar
      public void actualizar(){
        
         if (usuarioActual.getRol().equals(Rol.ADMIN)) {
         System.out.print("Ingrese el id del usuario: ");
         var validacionId = teclado.nextLine();
         
-    for (int i = 0; i < usuario.length; i++) {
+    for (int i = 0; i < cont; i++) {
     if(usuario[i].getId().equals(validacionId)){
         System.out.print("Selecione 1 para cambiar nombre y 2 para cambiar contraseña: ");
         var opc = teclado.nextInt();
@@ -107,19 +146,108 @@ public static User usuarioActual;
     System.out.println("Datos actualizados del usuario:");
         System.out.println(usuarioActual.toString()); 
             }
-        }while (!contraEncontrada);break;
-        }}  
-         else {
-            
-        }
-   }
+        }while (!contraEncontrada);break;}
+        
+   }}
 
    public void eliminarUsuario(){
-  
-       
-    
+        System.out.print("Ingrese el id del usuario a eliminar: ");
+        var validacionId = teclado.nextLine();
+        
+        boolean encontrado = false;
+        for (int i = 0; i < cont; i++) {
+            if(usuario[i].getId().equals(validacionId)){
+                encontrado = true;
+                for (int j = i; j < cont - 1; j++) {
+                    usuario[j] = usuario[j + 1];
+                }
+                usuario[cont - 1] = null; 
+                cont--;
+                System.out.println("Usuario eliminado con éxito.");
+                break;
+            }
+        }
+        if (!encontrado) {
+            System.out.println("Usuario no encontrado.");
+        }
    }
+   public void menuAdmin(){
+int sc;
+
+     do {
+    System.out.println("""
+        MENU PRINCIPAL
+        1. Crear Usuarios
+        2. Buscar Usuario
+        3. Actualiar Datos
+        4. Eliminar Usuario
+        5. SALIR
+    """);
+    System.out.print("Seleccione una opción: ");
+    sc = teclado.nextInt();
+    teclado.nextLine();
+    
+
+    switch (sc) {
+      case 1:
+        agregarUsuarios();
+        break;
+      case 2: 
+        buscarUsuario();
+        break;
+      case 3: 
+        actualizar();
+        break;
+      case 4:
+        eliminarUsuario();
+        break;  
+      case 5: 
+      System.out.println("Gracias por usar el sistema");
+      System.exit(0);
+      
+    
+      default:
+      System.out.println("OPCION NO VALIDA");
+        break;
+    }
+}while(sc!=5);
 }
+  public void menuEstandar(){
+    int sc;
+
+     do {
+    System.out.println("""
+        MENU PRINCIPAL
+        1. Buscar Usuario
+        2. Actualiar Datos
+        3. SALIR
+    """);
+    System.out.print("Seleccione una opción: ");
+    sc = teclado.nextInt();
+    teclado.nextLine();
+    
+
+    switch (sc) {
+      
+      case 1: 
+        buscarUsuario();
+        break;
+      case 2: 
+        actualizar();
+        break;
+      case 3: 
+      System.out.println("Gracias por usar el sistema");
+      System.exit(0);
+    
+      default:
+      System.out.println("OPCION NO VALIDA");
+        break;
+    }
+    }while(sc!=3);
+  }
+  }
+   
+
    
   
          
