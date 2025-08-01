@@ -53,6 +53,7 @@ public static User usuarioActual;
    }}
      public void actualizar(){
        
+        if (usuarioActual.getRol().equals(Rol.ADMIN)) {
         System.out.print("Ingrese el id del usuario: ");
         var validacionId = teclado.nextLine();
         
@@ -80,7 +81,37 @@ public static User usuarioActual;
                 usuario[i].cambiarContraseña(nuevaContraseña);
                 contraEncontrada=true;}}while (!contraEncontrada);break;
             }
-        }}
+        }}}
+        else if (usuarioActual.getRol().equals(Rol.ESTANDAR)) {
+        System.out.print("Selecione 1 para cambiar nombre y 2 para cambiar contraseña: ");
+        var opc = teclado.nextInt();
+        teclado.nextLine();
+        switch (opc) {
+            case 1:
+                System.out.print("Ingrese el nuevo nombre: ");
+                var nuevoNombre = teclado.nextLine();
+                usuarioActual.setNombreCompleto(nuevoNombre);
+                break;
+            case 2:
+            var contraEncontrada = false;
+            do{System.out.print("Ingrese contraseña para poder actualizar: ");
+                var validacionContra = teclado.nextLine();
+                
+            if (usuarioActual.getContraseña().equals(validacionContra)) {
+                
+            
+                System.out.print("Ingrese nueva contraseña: ");
+                var nuevaContraseña = teclado.nextLine();
+                usuarioActual.setContraseña(nuevaContraseña);
+                contraEncontrada=true;
+    System.out.println("Datos actualizados del usuario:");
+        System.out.println(usuarioActual.toString()); 
+            }
+        }while (!contraEncontrada);break;
+        }}  
+         else {
+            
+        }
    }
 
    public void eliminarUsuario(){
