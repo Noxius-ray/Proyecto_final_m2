@@ -1,6 +1,5 @@
 package ui;
 
-
 import model.Rol;
 import service.GestorUser;
 public class App  {
@@ -10,14 +9,14 @@ public class App  {
 while (true) {
   
 
-    if (gestor.usuarioActual == null) {   
+    if (GestorUser.usuarioActual == null) {   
  gestor.menuPrincipal();
  }
- if (gestor.usuarioActual == null) {
+ if (GestorUser.usuarioActual == null) {
   continue;
                 }
 
-  if (gestor.usuarioActual.getRol().equals(Rol.ADMIN)) {
+  if (GestorUser.usuarioActual.getRol().equals(Rol.ADMIN)) {
     
     gestor.menuAdmin();}
 

@@ -21,37 +21,8 @@ public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345",
  usuario[0] = usuario1;
         cont = 1;
 }
-    public void agregarUsuarios(){
 
-        System.out.println("=== Registro de nuevo usuario ===");
-    
-    System.out.print("Ingrese el nombre completo: ");
-    String nombre = teclado.nextLine();
-    
-    System.out.print("Ingrese el ID: ");
-    String id = teclado.nextLine();
-    
-    System.out.print("Ingrese el nombre de usuario: ");
-    String usuarioNombre = teclado.nextLine();
-
-    System.out.print("Ingrese la contraseña: ");
-    String contraseña = teclado.nextLine();
-    
-    System.out.print("Seleccione el rol (1 para ADMIN, 2 para ESTANDAR): ");
-    int rolSeleccionado = teclado.nextInt();
-    teclado.nextLine(); 
-
-    Rol rol = (rolSeleccionado == 1) ? Rol.ADMIN : Rol.ESTANDAR;
-
-    usuario[cont] = new User(nombre, id, usuarioNombre, contraseña, rol);
-    cont++;
-    System.out.println("Usuario agregado con exito");
-    }
-
-
-   
-
-    public User iniciarSesion(){
+ public User iniciarSesion(){
        
         boolean encontrado = false;
         System.out.print("Ingrese el usuario: ");
@@ -73,6 +44,65 @@ public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345",
     return null;
     }
   
+    public void agregarUsuarios(){
+
+    
+        System.out.println("=== Registro de nuevo usuario ===");
+        
+    System.out.print("Ingrese el nombre completo: ");
+    String nombre = teclado.nextLine();
+    String id;
+    while (true) {
+    System.out.print("Ingrese el ID: ");
+    String validacionid = teclado.nextLine();
+    boolean repetido = false;
+
+    for (int i = 0; i < cont; i++) {
+        if(usuario[i] != null && usuario[i].getId().equals(validacionid)){
+        repetido = true;
+        break;
+        }}
+    if (repetido) {
+        System.out.println("Ya existe un usuario con este ID = " + validacionid );
+    }
+    else {
+        id = validacionid; 
+        break; 
+}}
+    String usuarioNombre;
+    while (true) {
+    System.out.print("Ingrese el nombre de usuario: ");
+    String validacionUsuario = teclado.nextLine();
+    boolean repetido = false;
+
+    for (int i = 0; i < cont; i++){
+ if(usuario[i] != null && usuario[i].getUsuario().equals(validacionUsuario)){
+        repetido = true;
+        break;
+        }}
+    if (repetido) {
+        System.out.println("Ya existe alguien con este nombre de usuario = " + validacionUsuario );
+    }
+    else {
+        usuarioNombre = validacionUsuario; 
+        break; 
+}}
+    
+    System.out.print("Ingrese la contraseña: ");
+    String contraseña = teclado.nextLine();
+    
+    System.out.print("Seleccione el rol (1 para ADMIN, 2 para ESTANDAR): ");
+    int rolSeleccionado = teclado.nextInt();
+    teclado.nextLine(); 
+
+    Rol rol = (rolSeleccionado == 1) ? Rol.ADMIN : Rol.ESTANDAR;
+
+    usuario[cont] = new User(nombre, id, usuarioNombre, contraseña, rol);
+    cont++;
+    System.out.println("Usuario agregado con exito");
+}
+
+   
     public void buscarUsuario(){
          
      if(usuarioActual.getRol().equals(Rol.ADMIN))  {
