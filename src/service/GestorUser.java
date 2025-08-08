@@ -75,10 +75,10 @@ public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345",
   
     public void buscarUsuario(){
          
+     if(usuarioActual.getRol().equals(Rol.ADMIN))  {
         boolean encontrado= false;
         System.out.print("Ingrese el id del usuario: ");
         var validacionId = teclado.nextLine();
-
 
     for (int i = 0; i < cont; i++) {
     if(usuario[i].getId().equals(validacionId)){
@@ -89,6 +89,11 @@ public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345",
     if (!encontrado) {
     System.out.println("Usuario no encontrado");
    }}
+   else{
+    System.out.println("Informacion del usuario");
+    System.out.println(usuarioActual.toString());
+   }
+}
    //Metodo Actualizar
      public void actualizar(){
        
@@ -171,8 +176,37 @@ public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345",
             System.out.println("Usuario no encontrado.");
         }
    }
+   public void menuPrincipal(){
+    int opc;
+do {
+    System.out.println("""
+        MENU PRINCIPAL
+        1. Iniciar Sesion
+        2. Para continuar
+        3. Salir
+    """);
+
+    System.out.print("Seleccione una opción: ");
+    opc = teclado.nextInt();
+    teclado.nextLine();
+
+    switch (opc) {
+        case 1:
+            iniciarSesion(); 
+            break;
+        case 2:
+        break;
+        case 3:
+            System.exit(0); // Finaliza todo
+            break;
+        default:
+            System.out.println("Opción no válida");
+    }
+} while(opc!=2);
+   }
    public void menuAdmin(){
 int sc;
+boolean seguir = true;
 
      do {
     System.out.println("""
@@ -181,7 +215,8 @@ int sc;
         2. Buscar Usuario
         3. Actualiar Datos
         4. Eliminar Usuario
-        5. SALIR
+        5. Cerrar Sesion
+        6. SALIR
     """);
     System.out.print("Seleccione una opción: ");
     sc = teclado.nextInt();
@@ -201,7 +236,11 @@ int sc;
       case 4:
         eliminarUsuario();
         break;  
-      case 5: 
+        case 5:
+        cerrarSesion();
+        seguir=false;
+        break;
+      case 6: 
       System.out.println("Gracias por usar el sistema");
       System.exit(0);
       
@@ -210,17 +249,19 @@ int sc;
       System.out.println("OPCION NO VALIDA");
         break;
     }
-}while(sc!=5);
+}while(seguir);
 }
   public void menuEstandar(){
     int sc;
+    boolean seguir = true;
 
      do {
     System.out.println("""
         MENU PRINCIPAL
-        1. Buscar Usuario
+        1. Ver informacion
         2. Actualiar Datos
-        3. SALIR
+        3. Cerrar Sesion
+        4. SALIR
     """);
     System.out.print("Seleccione una opción: ");
     sc = teclado.nextInt();
@@ -235,7 +276,11 @@ int sc;
       case 2: 
         actualizar();
         break;
-      case 3: 
+        case 3:
+        cerrarSesion();
+        seguir = false;
+        break;
+      case 4: 
       System.out.println("Gracias por usar el sistema");
       System.exit(0);
     
@@ -243,9 +288,14 @@ int sc;
       System.out.println("OPCION NO VALIDA");
         break;
     }
-    }while(sc!=3);
+    }while(seguir);
+  }
+  public void cerrarSesion(){
+    usuarioActual = null;
+    System.out.println("Cerrando sesion. Volviendo al menu principal");
   }
   }
+  
    
 
    
