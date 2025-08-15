@@ -9,14 +9,14 @@ public class App  {
 while (true) {
   
 
-    if (GestorUser.usuarioActual == null) {   
+    if (GestorUser.getUsuarioActual() == null) {   
  gestor.menuPrincipal();
  }
- if (GestorUser.usuarioActual == null) {
+ if (GestorUser.getUsuarioActual() == null) {
   continue;
                 }
 
-  if (GestorUser.usuarioActual.getRol().equals(Rol.ADMIN)) {
+  if (GestorUser.getUsuarioActual().getRol().equals(Rol.ADMIN)) {
     
     gestor.menuAdmin();}
 

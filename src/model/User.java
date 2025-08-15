@@ -7,13 +7,35 @@ public class User {
     private String usuario;
     private String contraseña;
     private Rol rol;
+    private Acciones historial[];
+    private int cont;
     
+    public User(){
+        
+    }
     public User(String nombreCompleto, String id, String usuario, String contraseña, Rol rol) {
         this.nombreCompleto = nombreCompleto;
         this.id = id;
         this.usuario = usuario;
         this.contraseña = contraseña;
         this.rol = rol;
+        this.historial = new Acciones[100];
+        this.cont =0;
+    }
+    
+    public void AgregarAcciones (String descripcion){
+        if(cont < historial.length){
+            historial[cont]= new Acciones(descripcion, System.currentTimeMillis());
+            cont++;
+        }
+          else {
+            System.out.println("Historial lleno para este usuario.");
+        }
+    }
+     public void mostrarHistorial() {
+        for (int i = 0; i < cont; i++) {
+            System.out.println(historial[i]);
+        }
     }
 
 

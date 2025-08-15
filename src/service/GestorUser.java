@@ -1,26 +1,33 @@
 package service;
 
 import java.util.Scanner;
-
-
-
 import model.Rol;
 import model.User;
 
 public class GestorUser {
 
-public static Scanner teclado = new Scanner(System.in);
-public static User usuarioActual;
-public static User usuario[];
-public static int cont = 0;
-public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345", Rol.ADMIN );
- 
+private
 
+static Scanner teclado = new Scanner(System.in);
+private static User usuarioActual;
+private static User usuario[];
+private static int cont = 0;
+private static User usuario1 = new User("ADMIN PRINCIPAL", "1", "ADMIN", "12345", Rol.ADMIN );
+ 
   static {
  usuario = new User[50];
  usuario[0] = usuario1;
         cont = 1;
 }
+
+
+ public static User getUsuarioActual() {
+    return usuarioActual;
+}
+
+  public static void setUsuarioActual(User usuarioActual) {
+    GestorUser.usuarioActual = usuarioActual;
+  }
 
  public User iniciarSesion(){
        
@@ -37,6 +44,7 @@ public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345",
         System.out.println("Nombre del usuario: "+usuario[i].getNombreCompleto());
         encontrado = true;
         usuarioActual = usuario[i];
+        usuarioActual.AgregarAcciones("Inicio de sesion");
         return usuario[i];}}
         if(!encontrado){
        System.out.println("Usuario o contraseña ingresado incorrectamente");
@@ -98,6 +106,7 @@ public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345",
     Rol rol = (rolSeleccionado == 1) ? Rol.ADMIN : Rol.ESTANDAR;
 
     usuario[cont] = new User(nombre, id, usuarioNombre, contraseña, rol);
+    usuarioActual.AgregarAcciones("Creo el usuario: "+ usuario[cont].getUsuario());
     cont++;
     System.out.println("Usuario agregado con exito");
 }
@@ -114,6 +123,7 @@ public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345",
     if(usuario[i].getId().equals(validacionId)){
     System.out.println("Usuario Encontrado");
     System.out.println(usuario[i].toString());
+    usuarioActual.AgregarAcciones("Busco al usuario: "+ usuario[i].getUsuario());
     encontrado=true;
     break;}}
     if (!encontrado) {
@@ -122,6 +132,7 @@ public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345",
    else{
     System.out.println("Informacion del usuario");
     System.out.println(usuarioActual.toString());
+    usuarioActual.AgregarAcciones("Miro su informacion");
    }
 }
    //Metodo Actualizar
@@ -141,6 +152,7 @@ public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345",
                 System.out.print("Ingrese el nuevo nombre: ");
                 var nuevoNombre = teclado.nextLine();
                 usuario[i].setNombreCompleto(nuevoNombre);
+                usuarioActual.AgregarAcciones("Cambio el nombre del usuario: "+ usuario[i].getUsuario());
                 break;
             case 2:
             var contraEncontrada = false;
@@ -153,6 +165,7 @@ public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345",
                 System.out.print("Ingrese nueva contraseña: ");
                 var nuevaContraseña = teclado.nextLine();
                 usuario[i].cambiarContraseña(nuevaContraseña);
+                usuarioActual.AgregarAcciones("Cambio la contraseña del usuario: "+ usuario[i].getUsuario());
                 contraEncontrada=true;}}while (!contraEncontrada);break;
             }
         }}}
@@ -165,6 +178,7 @@ public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345",
                 System.out.print("Ingrese el nuevo nombre: ");
                 var nuevoNombre = teclado.nextLine();
                 usuarioActual.setNombreCompleto(nuevoNombre);
+                 usuarioActual.AgregarAcciones("Cambio su nombre");
                 break;
             case 2:
             var contraEncontrada = false;
@@ -177,6 +191,7 @@ public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345",
                 System.out.print("Ingrese nueva contraseña: ");
                 var nuevaContraseña = teclado.nextLine();
                 usuarioActual.setContraseña(nuevaContraseña);
+                usuarioActual.AgregarAcciones("Cambio su contraseña");
                 contraEncontrada=true;
     System.out.println("Datos actualizados del usuario:");
         System.out.println(usuarioActual.toString()); 
@@ -199,6 +214,7 @@ public static User usuario1 = new User("Pedro Barreto", "1", "Pedrito", "12345",
                 usuario[cont - 1] = null; 
                 cont--;
                 System.out.println("Usuario eliminado con éxito.");
+                usuarioActual.AgregarAcciones("Se ha eliminado al usuario: "+ usuario[i].getUsuario());
                 break;
             }
         }
@@ -245,8 +261,9 @@ boolean seguir = true;
         2. Buscar Usuario
         3. Actualiar Datos
         4. Eliminar Usuario
-        5. Cerrar Sesion
-        6. SALIR
+        5. Ver historial de acciones
+        6. Cerrar Sesion
+        7. SALIR
     """);
     System.out.print("Seleccione una opción: ");
     sc = teclado.nextInt();
@@ -265,12 +282,15 @@ boolean seguir = true;
         break;
       case 4:
         eliminarUsuario();
-        break;  
-        case 5:
+        break; 
+      case 5:
+        usuarioActual.mostrarHistorial();
+      break;
+        case 6:
         cerrarSesion();
         seguir=false;
         break;
-      case 6: 
+      case 7: 
       System.out.println("Gracias por usar el sistema");
       System.exit(0);
       
