@@ -12,9 +12,6 @@ while (true) {
     if (GestorUser.getUsuarioActual() == null) {   
  gestor.menuPrincipal();
  }
- if (GestorUser.getUsuarioActual() == null) {
-  continue;
-                }
 
   if (GestorUser.getUsuarioActual().getRol().equals(Rol.ADMIN)) {
     
